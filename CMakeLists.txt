@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(rd_linux)
+
 option(EXAMPLES "Build Example" OFF)
 
 add_library(
@@ -14,7 +15,7 @@ target_include_directories(
     ${PROJECT_SOURCE_DIR}/include/
 )   
 
-IF(EXAMPLE)
+IF(EXAMPLES)
     add_executable(main ${PROJECT_SOURCE_DIR}/example/main.cpp)
     target_link_libraries(main PUBLIC ${PROJECT_NAME})
-ENDIF(EXAMPLE)
+ENDIF(EXAMPLES)

@@ -1,11 +1,11 @@
 #include <rdlinux.hpp>
 
 
-char *LinuxRWNFS::dev_name =NULL;
+const char *LinuxRWNFS::dev_name =NULL;
 std::ifstream LinuxRWNFS::readfile;
 std::ofstream LinuxRWNFS::writefile;
 
-int LinuxRWNFS::drive_open(char *drive_name)
+int LinuxRWNFS::drive_open(const char *drive_name)
 
 {
     //setting name once we open the drive
@@ -28,6 +28,7 @@ int LinuxRWNFS::drive_open(char *drive_name)
 
 uint64_t LinuxRWNFS::get_drive_geometry()
 {
+    writefile.close();
     readfile.close();
     readfile.open(dev_name, std::ios_base::binary | std::ios_base::ate);
     if(!readfile)  //NULL-condition incase nothing was opened.
@@ -41,6 +42,7 @@ uint64_t LinuxRWNFS::get_drive_geometry()
 
 int LinuxRWNFS::drive_read(unsigned int sec, unsigned int num_secs, char *buf)
 {
+    // writefile.close();
     readfile.close();
     //It is important to open the drive again to see whether the file is updated or not !
     readfile.open(dev_name,std::ios_base::binary);
@@ -73,7 +75,7 @@ int LinuxRWNFS::drive_read(unsigned int sec, unsigned int num_secs, char *buf)
 int LinuxRWNFS::drive_write(unsigned int sec, unsigned int num_secs, char *buf)
 {
     //Close the drive to makesure its not opened in the ifstream
-    // readfile.close();
+    readfile.close();
     writefile.close();
     writefile.open(dev_name,std::ios_base::binary);
     if(!writefile)  //NULL-condition incase nothing was opened.
@@ -96,6 +98,7 @@ int LinuxRWNFS::drive_write(unsigned int sec, unsigned int num_secs, char *buf)
         return -1;
     }
 
+    
     //if all goes well
     return 0;
 }
