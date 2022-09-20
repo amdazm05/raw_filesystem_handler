@@ -1,26 +1,29 @@
 #include <rdlinux.hpp>
-
-
-const char *LinuxRWNFS::dev_name =NULL;
-std::ifstream LinuxRWNFS::readfile;
-std::ofstream LinuxRWNFS::writefile;
+#include <filesystem>
 
 int LinuxRWNFS::drive_open(const char *drive_name)
 
 {
     //setting name once we open the drive
+    bool exist = std::filesystem::exists(drive_name);
+    std::cout<<"File Existence status : "<<exist<<std::endl;
     dev_name=drive_name;
-    readfile.open(drive_name, std::ios_base::binary);
-    writefile.open(drive_name, std::ios_base::binary);
-    if((!readfile)&&(!writefile))  //NULL-condition incase nothing was opened.
+    if(exist)
+        readfile.open(drive_name, std::ios_base::binary);
+    else
+        readfile.close();
+    // writefile.open(drive_name, std::ios_base::binary);
+    if((!readfile))  //NULL-condition incase nothing was opened.
     {
         std::cerr<<"LinuxRWNFS: Unable to open drive : Error ! "<<std::strerror(errno)<<std::endl;
+        // writefile.close();
         return -1;
     }
 
     else
     {
         std::cout<<"LinuxRWNFS: Opened drive for operations"<<std::endl;
+        
         return 0;
     }
 

@@ -11,14 +11,14 @@
 class LinuxRWNFS
 {
     private:
-        static const char *dev_name;
-        static std::ifstream readfile;
-        static std::ofstream writefile;
+         const char *dev_name;
+         std::ifstream readfile;
+         std::ofstream writefile;
     public:
-        static int drive_open(const char *drive_name);
-        static int drive_write(unsigned int sec, unsigned int num_secs, char *buf);
-        static int drive_read(unsigned int sec, unsigned int num_secs, char *buf);
-        static uint64_t get_drive_geometry();
+         int drive_open(const char *drive_name);
+         int drive_write(unsigned int sec, unsigned int num_secs, char *buf);
+         int drive_read(unsigned int sec, unsigned int num_secs, char *buf);
+         uint64_t get_drive_geometry();
 };
 
 #endif //__RD_LINUX
