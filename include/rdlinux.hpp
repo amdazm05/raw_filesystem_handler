@@ -14,6 +14,7 @@ class LinuxRWNFS
          const char *dev_name;
          std::ifstream readfile;
          std::ofstream writefile;
+         bool exists=false;
     public:
          int drive_open(const char *drive_name);
          int drive_write(unsigned int sec, unsigned int num_secs, char *buf);
