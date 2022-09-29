@@ -5,9 +5,9 @@ int LinuxRWNFS::drive_open(const char *drive_name)
 
 {
     //setting name once we open the drive
-    // exists = std::filesystem::exists(drive_name);
+    exists = std::filesystem::exists(drive_name);
     readfile.close();
-    exists =true;
+    // exists =true;
     std::cout<<drive_name<<std::endl;
     // std::cout<<"File Existence status : "<<exists<<std::endl;
     dev_name=drive_name;
@@ -55,7 +55,7 @@ uint64_t LinuxRWNFS::get_drive_geometry()
 
 int LinuxRWNFS::drive_read(unsigned int sec, unsigned int num_secs, char *buf)
 {
-    // writefile.close();
+    writefile.close();
     readfile.close();
     //It is important to open the drive again to see whether the file is updated or not !
     readfile.open(dev_name,std::ios_base::binary);
@@ -91,8 +91,6 @@ int LinuxRWNFS::drive_write(unsigned int sec, unsigned int num_secs, char *buf)
     readfile.close();
     writefile.close();
     writefile.open(dev_name,std::ios_base::binary);
-    std::cout<<"LinuxRWNFS: ---Writing ---"<<std::endl;
-    std::cout<<"Sector"<<sec<<" numSecs"<<num_secs<<std::endl;
     if(!writefile)  //NULL-condition incase nothing was opened.
     {
         std::cerr<<"LinuxRWNFS: Unable to open drive : Error ! "<<std::strerror(errno)<<std::endl;
